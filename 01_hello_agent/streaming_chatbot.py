@@ -91,12 +91,12 @@ async def main(message: cl.Message):
 
         # Stream the response token by token
         async for event in result.stream_events():
-            if event.type == "raw_response_event" and hasattr(event.data, "delta"):
-                # Only try to access delta if it's a raw_response_event with delta attribute
-                token = event.data.delta
+            if event.type == "raw_response_event":
+                # Use getattr with a default value to safely access the delta attribute
+                token = getattr(event.data, "delta", None)
                 if token:
                     await msg.stream_token(token)
-            # Skip other event types like ResponseAudioDoneEvent that don't have delta
+            # Skip other event types like ResponseAudioDoneEvent
 
         # Append the assistant's response to the history.
         history.append({"role": "assistant", "content": msg.content})
