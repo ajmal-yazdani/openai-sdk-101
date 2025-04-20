@@ -30,6 +30,7 @@ if missing_vars:
     )
 
 
+# Check if the required environment variables are set
 @cl.on_chat_start
 async def handle_start():
     # Set up the Azure OpenAI client
